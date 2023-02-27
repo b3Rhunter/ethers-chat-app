@@ -23,7 +23,7 @@ function App() {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner()
-      await signer.signMessage("Welcome to React With Ethereum!");
+      await signer.signMessage("Welcome to ETH-CHAT!");
       const contract = new ethers.Contract(CHAT_CONTRACT_ADDRESS, chatABI, signer);
       const messages = await contract.getMessages();
       setMessages(messages);
