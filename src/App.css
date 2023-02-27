@@ -1,0 +1,143 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.connect-button, .disconnect-button {
+  padding: 10px;
+  font-size: 18px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid #fff;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 5px;
+  position: fixed;
+  top: 10px;
+  right: 24px;
+}
+
+.connect-button:hover, .disconnect-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.message-container {
+  margin-top: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 380px;
+  height: 125px;
+  overflow-y: scroll;
+  padding: 24px;
+}
+
+.message-box {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  display: flex;
+  flex-direction:row;
+  align-items: flex-start;
+  color: #fff;
+}
+
+.message-sender {
+  font-size: 14px;
+  font-weight: bold;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  text-align: left;
+  width: 75px;
+  border-right: 1px solid #fff;
+}
+
+.message-text {
+  font-size: 1vw;
+  margin-top: 5px;
+  max-width: 250px;
+  word-wrap: break-word;
+  position: relative;
+  top: 0px;
+  right: 0px;
+  text-align: right;
+  margin-left: 24px;
+}
+
+.input-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #fff;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  width: 350px;
+  color: #fff;
+}
+
+.send-button {
+  padding: 10px;
+  font-size: 18px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid #fff;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 5px;
+  position: fixed;
+  bottom: 14px;
+}
+
+.send-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.show-chat-button {
+  padding: 10px;
+  font-size: 18px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid #ffff;
+  cursor: pointer;
+  margin: 5px;
+  border-radius: 5px;
+  position: fixed;
+  top: 10px;
+  left: 24px;
+}
+
+.show-chat-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.example::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
