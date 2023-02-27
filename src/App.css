@@ -36,7 +36,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 380px;
+  width: 80%;
   height: 125px;
   overflow-y: scroll;
   padding: 24px;
@@ -56,25 +56,21 @@
 }
 
 .message-sender {
-  font-size: 14px;
+  font-size: 1vw;
   font-weight: bold;
   position: relative;
   top: 0px;
   left: 0px;
   text-align: left;
-  width: 75px;
+  width: 100%;
   border-right: 1px solid #fff;
+  word-wrap: break-word;
 }
 
 .message-text {
   font-size: 1vw;
-  margin-top: 5px;
-  max-width: 250px;
   word-wrap: break-word;
-  position: relative;
-  top: 0px;
-  right: 0px;
-  text-align: right;
+  text-align: justify;
   margin-left: 24px;
 }
 

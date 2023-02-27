@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import './App.css';
 import { ethers } from "ethers";
 import chatABI from './chatABI.json';
@@ -11,7 +11,9 @@ function App() {
   const [connected, setConnected] = useState(false);
   const [name, setName] = useState("please sign in");
   const [chatContract, setChatContract] = useState(null);
-  const [signer, setSigner] = useState(null)
+  const [signer, setSigner] = useState(null);
+  const [sender, setSender] = useState("")
+  const [renderedMessages, setRenderedMessages] = useState([]);
 
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
@@ -60,17 +62,50 @@ function App() {
   }
 
   async function sendMessage() {
-    await chatContract.sendMessage(currentMessage);
-    chatContract.on("NewMessage", handleMessageEvent);
+    const get = await chatContract.sendMessage(currentMessage);
+    await get.wait()
     const messages = await chatContract.getMessages();
     setMessages(messages);
     setCurrentMessage("");
+
+    const latestMessage = messages[messages.length - 1];
+    const senderAddress = latestMessage.sender;
+    const ensProvider = new ethers.providers.InfuraProvider('mainnet');
+    const displayAddress = senderAddress?.substr(0, 6) + "...";
+    const ens = await ensProvider.lookupAddress(senderAddress);
+    if (ens !== null) {
+      setName("welcome back..." + ens)
+    } else {
+      setName("welcome back..." + displayAddress)
+    }
+    chatContract.on("NewMessage", handleMessageEvent);
   }
 
   async function displayMessages() {
-    const messages = await chatContract.getMessages();
-    setMessages(messages);
+    const renderedMessages = await Promise.all(
+      messages.slice().reverse().map(async (message, i) => {
+        const senderAddress = message.sender;
+        const ensProvider = new ethers.providers.InfuraProvider('mainnet');
+        const ensName = await ensProvider.lookupAddress(senderAddress);
+        return (
+          <div key={i} className="message-box">
+            <div style={{width: "15%"}}>
+              <p className="message-sender">From: {ensName || (senderAddress.substr(0, 6) + "...")}</p>
+            </div>
+            <div style={{width: "100%"}}>
+              <p className="message-text">{message.message}</p>
+            </div>
+          </div>
+        );
+      })
+    );
+    setRenderedMessages(renderedMessages);
   }
+
+  useEffect(() => {
+    displayMessages();
+  }, [messages]);
+
 
   return (
     <div className="App">
@@ -84,30 +119,22 @@ function App() {
 
         {connected && (
           <>
-          <button className="disconnect-button" onClick={disconnect}>
-            Disconnect
+            <button className="disconnect-button" onClick={disconnect}>
+              Disconnect
             </button>
-            <div className="message-container example">
-            {messages.slice().reverse().map((message, i) => (
-              <div key={i} className="message-box">
-                <div>
-                  <p className="message-sender">From: {message.sender.substr(0, 6) + "..."}</p>
-                </div>
-                <div>
-                  <p className="message-text">{message.message}</p>
-                </div>
-              </div>
-            ))}
-          </div><div className="input-container">
+            <div className="message-container example">{renderedMessages}</div>
+            <div className="input-container">
               <input
                 type="text"
                 value={currentMessage}
-                onChange={(e) => setCurrentMessage(e.target.value)} />
-
-              <button className="send-button" onClick={sendMessage}>Send</button>
-            </div></>
+                onChange={(e) => setCurrentMessage(e.target.value)}
+              />
+              <button className="send-button" onClick={sendMessage}>
+                Send
+              </button>
+            </div>
+          </>
         )}
-
       </header>
     </div>
   );
